@@ -5,20 +5,12 @@ using MovieVault.Data;
 using MovieVault.Models.Movies;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
+using System.ComponentModel;
 
 namespace MovieVault.Services;
 
-public class MovieService
+public class MovieService(ApplicationDbContext _context, HttpClient _httpClient, IMapper _mapper)
 {
-    private readonly ApplicationDbContext _context;
-    private readonly HttpClient _httpClient;
-    private readonly IMapper _mapper;
-    public MovieService(ApplicationDbContext context, HttpClient httpClient, IMapper mapper)
-    {
-        _context = context;
-        _httpClient = httpClient;
-        _mapper = mapper;
-    }
     public async Task<MovieDescriptionVM?> GetMovieAsync(string title)
     {
         if (string.IsNullOrWhiteSpace(title))
@@ -47,5 +39,11 @@ public class MovieService
         var data = await _context.Movies.ToListAsync();
         var viewData = _mapper.Map<List<MoviesReadOnlyVM>>(data);
         return viewData;
+    }
+
+    public async Task<bool> CheckIfMovieExists(string name)
+    {
+        var lowercaseName = name.ToLower();
+        return await _context.Movies.AnyAsync(q => q.Title.ToLower().Equals(lowercaseName));
     }
 }
