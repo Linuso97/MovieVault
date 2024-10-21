@@ -1,9 +1,11 @@
-﻿@{
+﻿@model MovieDescriptionVM
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
     <h1 class="display-4">Welcome to MovieVault</h1>
+    <p>Here you can search for movies and tv-shows, you can also save them to your list if you are logged in.</p>
 </div>
 
 <div class="row mb-4">
@@ -19,19 +21,15 @@
 
 @section Scripts {
     <script>
-        document.getElementById('searchButton').addEventListener('click', async function() {
+        document.getElementById('searchButton').addEventListener('click', async function () {
             const title = document.getElementById('searchInput').value;
             if (!title) return;
 
             const response = await fetch(`/Home/Get?title=${encodeURIComponent(title)}`);
-            const data = await response.json();
-
             const movieInfoDiv = document.getElementById('movieInfo');
-            // Kolla om svaret från API:et indikerar att filmen inte finns
-            if (data && data.response === "False") {
-                movieInfoDiv.innerHTML = `<p class="text-danger">Movie not found.</p>`;
-            } else if (response.ok) {
-                // Om filmen hittas
+
+            if (response.ok) {
+                const data = await response.json();
                 movieInfoDiv.innerHTML = `
                             <div class="container mt-5">
                                 <div class="row">
@@ -48,10 +46,42 @@
                                         <p><strong>Actors:</strong> ${data.actors}</p>
                                         <p><strong>Plot:</strong></p>
                                         <p>${data.plot}</p>
+                                        <button id="saveButton" class="btn btn-success">Save</button>
                                     </div>
                                 </div>
                             </div>
-                `;
+                        `;
+
+                document.getElementById('saveButton').addEventListener('click', async function () {
+                    const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+                    const saveResponse = await fetch('/Home/Save', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'RequestVerificationToken': token
+                        },
+                        body: JSON.stringify({
+                            Title: data.title,
+                            Genre: data.genre,
+                            Year: data.year,
+                            Runtime: data.runtime,
+                            ImdbRating: data.imdbRating,
+                            Director: data.director,
+                            Actors: data.actors,
+                            Plot: data.plot,
+                            Poster: data.poster
+                        })
+                    });
+
+                    if (saveResponse.ok) {
+                        alert('Movie saved successfully!');
+                    } else {
+                        const errorResponse = await saveResponse.json();
+                        alert('Failed to save movie: ' + errorResponse.title); // Visa specifika felmeddelanden
+                    }
+                });
+
             } else {
                 movieInfoDiv.innerHTML = `<p class="text-danger">Movie not found.</p>`;
             }

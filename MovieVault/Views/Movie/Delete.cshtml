@@ -1,4 +1,4 @@
-﻿@model MovieVault.Data.Movie
+﻿@model MoviesReadOnlyVM
 
 @{
     ViewData["Title"] = "Delete";
@@ -36,40 +36,16 @@
             @Html.DisplayFor(model => model.Genre)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Director)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Director)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Actors)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Actors)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Plot)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Plot)
-        </dd>
-        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.imdbRating)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.imdbRating)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Poster)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Poster)
-        </dd>
     </dl>
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <input type="submit" value="Delete" class="btn btn-danger" /> 
+        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
     </form>
 </div>

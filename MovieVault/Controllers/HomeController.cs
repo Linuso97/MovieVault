@@ -38,7 +38,7 @@ namespace MovieVault.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Save(MovieDescriptionVM movieDescription)
+        public async Task<IActionResult> Save([FromBody] MovieDescriptionVM movieDescription)
         {
             if (await _movieService.CheckIfMovieExists(movieDescription.Title))
             {
