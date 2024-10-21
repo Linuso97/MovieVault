@@ -5,3 +5,56 @@
 <div class="text-center">
     <h1 class="display-4">Welcome to MovieVault</h1>
 </div>
+
+<div class="row mb-4">
+    <div class="col-md-8 offset-md-2">
+        <input type="text" id="searchInput" class="form-control" placeholder="Search for a movie or tvshow..." />
+    </div>
+    <div class="col-md-2">
+        <button id="searchButton" class="btn btn-primary">Search</button>
+    </div>
+</div>
+
+<div id="movieInfo" class="mt-4"></div> <!-- Movie information will be displayed here -->
+
+@section Scripts {
+    <script>
+        document.getElementById('searchButton').addEventListener('click', async function() {
+            const title = document.getElementById('searchInput').value;
+            if (!title) return;
+
+            const response = await fetch(`/Home/Get?title=${encodeURIComponent(title)}`);
+            const data = await response.json();
+
+            const movieInfoDiv = document.getElementById('movieInfo');
+            // Kolla om svaret från API:et indikerar att filmen inte finns
+            if (data && data.response === "False") {
+                movieInfoDiv.innerHTML = `<p class="text-danger">Movie not found.</p>`;
+            } else if (response.ok) {
+                // Om filmen hittas
+                movieInfoDiv.innerHTML = `
+                            <div class="container mt-5">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <img src="${data.poster}" alt="${data.title}" class="img-fluid" />
+                                    </div>
+                                    <div class="col-md-8">
+                                        <h3>${data.title}</h3>
+                                        <p><strong>IMDB Rating:</strong> ${data.imdbRating}</p>
+                                        <p><strong>Year:</strong> ${data.year}</p>
+                                        <p><strong>Genre:</strong> ${data.genre}</p>
+                                        <p><strong>Runtime:</strong> ${data.runtime}</p>
+                                        <p><strong>Director:</strong> ${data.director}</p>
+                                        <p><strong>Actors:</strong> ${data.actors}</p>
+                                        <p><strong>Plot:</strong></p>
+                                        <p>${data.plot}</p>
+                                    </div>
+                                </div>
+                            </div>
+                `;
+            } else {
+                movieInfoDiv.innerHTML = `<p class="text-danger">Movie not found.</p>`;
+            }
+        });
+    </script>
+}

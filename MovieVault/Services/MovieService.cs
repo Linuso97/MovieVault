@@ -17,8 +17,14 @@ public class MovieService(ApplicationDbContext _context, HttpClient _httpClient,
         {
             return null;
         }
-        var response = await _httpClient.GetStringAsync($"http://www.omdbapi.com/?t={title}&apikey=c74d46b0");
-        var data = JsonSerializer.Deserialize<Movie>(response);
+        var response = await _httpClient.GetStringAsync($"http://www.omdbapi.com/?t={Uri.EscapeDataString(title)}&apikey=c74d46b0");
+        var data = JsonSerializer.Deserialize<MovieApiResponse>(response);
+
+        if (data == null || data.Response == "False")
+        {
+            return null; 
+        }
+
         var viewData = _mapper.Map<MovieDescriptionVM>(data);
         return viewData;
     }

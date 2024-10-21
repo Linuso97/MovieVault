@@ -10,6 +10,7 @@ namespace MovieVault.MappingProfiles
         {
             CreateMap<Movie, MoviesReadOnlyVM>();
             CreateMap<Movie, MovieDescriptionVM>().ReverseMap();
+            CreateMap<MovieApiResponse, MovieDescriptionVM>();
         }
     }
 }

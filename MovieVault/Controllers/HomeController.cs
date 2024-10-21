@@ -33,7 +33,7 @@ namespace MovieVault.Controllers
             {
                 return NotFound();
             }
-            return View(movie);
+            return Json(movie);
         }
 
         [HttpPost]
