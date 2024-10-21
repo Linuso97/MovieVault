@@ -13,18 +13,8 @@ using Microsoft.AspNetCore.Http;
 
 namespace MovieVault.Controllers
 {
-    public class MovieController : Controller
+    public class MovieController(IMovieService _movieService) : Controller
     {
-        private readonly ApplicationDbContext _context;
-        private readonly HttpClient _httpClient;
-        private readonly MovieService _movieService;
-        public MovieController(ApplicationDbContext context, HttpClient httpClient, MovieService movieService)
-        {
-            _context = context;
-            _httpClient = httpClient;
-            _movieService = movieService;
-        }
-
         // GET: Movie
         public async Task<IActionResult> Index()
         {
@@ -49,28 +39,6 @@ namespace MovieVault.Controllers
             return View(movie);
         }
 
-        // GET: Movies/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Movies/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Year,Runtime,Genre,Director,Actors,Plot,imdbRating,Poster")] Movie movie)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(movie);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(movie);
-        }
-
         // GET: Movies/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -79,8 +47,7 @@ namespace MovieVault.Controllers
                 return NotFound();
             }
 
-            var movie = await _context.Movies
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var movie = await _movieService.GetMovieFromListAsync<MoviesReadOnlyVM>(id.Value);
             if (movie == null)
             {
                 return NotFound();
@@ -94,19 +61,8 @@ namespace MovieVault.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var movie = await _context.Movies.FindAsync(id);
-            if (movie != null)
-            {
-                _context.Movies.Remove(movie);
-            }
-
-            await _context.SaveChangesAsync();
+            await _movieService.DeleteMovieAsync(id);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool MovieExists(int id)
-        {
-            return _context.Movies.Any(e => e.Id == id);
         }
     }
 }

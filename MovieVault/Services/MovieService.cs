@@ -9,7 +9,7 @@ using System.ComponentModel;
 
 namespace MovieVault.Services;
 
-public class MovieService(ApplicationDbContext _context, HttpClient _httpClient, IMapper _mapper)
+public class MovieService(ApplicationDbContext _context, HttpClient _httpClient, IMapper _mapper) : IMovieService
 {
     public async Task<MovieDescriptionVM?> GetMovieAsync(string title)
     {
@@ -22,7 +22,7 @@ public class MovieService(ApplicationDbContext _context, HttpClient _httpClient,
         var viewData = _mapper.Map<MovieDescriptionVM>(data);
         return viewData;
     }
-    public async Task<T?>GetMovieFromListAsync<T>(int id) where T : class
+    public async Task<T?> GetMovieFromListAsync<T>(int id) where T : class
     {
         var data = await _context.Movies.FirstOrDefaultAsync(x => x.Id == id);
         if (data == null)
@@ -44,7 +44,7 @@ public class MovieService(ApplicationDbContext _context, HttpClient _httpClient,
     public async Task DeleteMovieAsync(int id)
     {
         var data = await _context.Movies.FirstOrDefaultAsync(x => x.Id == id);
-        if(data != null)
+        if (data != null)
         {
             _context.Movies.Remove(data);
             _context.SaveChanges();
