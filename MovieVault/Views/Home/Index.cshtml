@@ -21,7 +21,8 @@
 
 @section Scripts {
     <script>
-        document.getElementById('searchButton').addEventListener('click', async function () {
+        // Funktion för att trigga sökningen
+        async function searchMovie() {
             const title = document.getElementById('searchInput').value;
             if (!title) return;
 
@@ -31,26 +32,26 @@
             if (response.ok) {
                 const data = await response.json();
                 movieInfoDiv.innerHTML = `
-                            <div class="container mt-5">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <img src="${data.poster}" alt="${data.title}" class="img-fluid" />
+                                    <div class="container mt-5">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <img src="${data.poster}" alt="${data.title}" class="img-fluid" />
+                                            </div>
+                                            <div class="col-md-8">
+                                                <h3>${data.title}</h3>
+                                                <p><strong>IMDB Rating:</strong> ${data.imdbRating}</p>
+                                                <p><strong>Year:</strong> ${data.year}</p>
+                                                <p><strong>Genre:</strong> ${data.genre}</p>
+                                                <p><strong>Runtime:</strong> ${data.runtime}</p>
+                                                <p><strong>Director:</strong> ${data.director}</p>
+                                                <p><strong>Actors:</strong> ${data.actors}</p>
+                                                <p><strong>Plot:</strong></p>
+                                                <p>${data.plot}</p>
+                                                <button id="saveButton" class="btn btn-success">Save</button>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="col-md-8">
-                                        <h3>${data.title}</h3>
-                                        <p><strong>IMDB Rating:</strong> ${data.imdbRating}</p>
-                                        <p><strong>Year:</strong> ${data.year}</p>
-                                        <p><strong>Genre:</strong> ${data.genre}</p>
-                                        <p><strong>Runtime:</strong> ${data.runtime}</p>
-                                        <p><strong>Director:</strong> ${data.director}</p>
-                                        <p><strong>Actors:</strong> ${data.actors}</p>
-                                        <p><strong>Plot:</strong></p>
-                                        <p>${data.plot}</p>
-                                        <button id="saveButton" class="btn btn-success">Save</button>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
+                                `;
 
                 document.getElementById('saveButton').addEventListener('click', async function () {
                     const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
@@ -78,12 +79,23 @@
                         alert('Movie saved successfully!');
                     } else {
                         const errorResponse = await saveResponse.json();
-                        alert('Failed to save movie: ' + errorResponse.title); // Visa specifika felmeddelanden
+                        alert('Failed to save movie: ' + errorResponse.title);
                     }
                 });
 
             } else {
                 movieInfoDiv.innerHTML = `<p class="text-danger">Movie not found.</p>`;
+            }
+        }
+
+        document.getElementById('searchButton').addEventListener('click', function () {
+            searchMovie();
+        });
+
+        document.getElementById('searchInput').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                searchMovie(); 
             }
         });
     </script>
