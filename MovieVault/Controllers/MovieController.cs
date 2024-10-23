@@ -10,15 +10,24 @@ using MovieVault.Data;
 using MovieVault.Models.Movies;
 using MovieVault.Services;
 using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MovieVault.Controllers
 {
+    [Authorize]
     public class MovieController(IMovieService _movieService) : Controller
     {
         // GET: Movie
         public async Task<IActionResult> Index()
         {
-            var viewData = await _movieService.GetAllMoviesAsync();
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (userId == null)
+            {
+                return BadRequest("You need to be logged in to save to your list.");
+            }
+            var viewData = await _movieService.GetAllMoviesAsync(userId);
             return View(viewData);
         }
 

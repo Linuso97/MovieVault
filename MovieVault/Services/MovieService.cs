@@ -42,9 +42,12 @@ public class MovieService(ApplicationDbContext _context, HttpClient _httpClient,
         return (viewData);
     }
 
-    public async Task<List<MoviesReadOnlyVM>> GetAllMoviesAsync()
+    public async Task<List<MoviesReadOnlyVM>> GetAllMoviesAsync(string userId)
     {
-        var data = await _context.Movies.ToListAsync();
+
+        var data = await _context.Movies
+            .Where(q => q.UserId == userId)
+            .ToListAsync();
         var viewData = _mapper.Map<List<MoviesReadOnlyVM>>(data);
         return viewData;
     }
@@ -59,9 +62,10 @@ public class MovieService(ApplicationDbContext _context, HttpClient _httpClient,
         }
     }
 
-    public async Task SaveMovieAsync(MovieDescriptionVM data)
+    public async Task SaveMovieAsync(MovieDescriptionVM data, string userId)
     {
         var movie = _mapper.Map<Movie>(data);
+        movie.UserId = userId;
         _context.Add(movie);
         await _context.SaveChangesAsync();
     }

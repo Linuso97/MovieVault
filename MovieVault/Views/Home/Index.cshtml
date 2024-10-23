@@ -1,4 +1,5 @@
-﻿@model MovieDescriptionVM
+﻿@using System.Security.Claims
+@model MovieDescriptionVM
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -22,6 +23,7 @@
 @section Scripts {
     <script>
         // Funktion för att trigga sökningen
+        const userId = '@User.FindFirstValue("UserId")';
         async function searchMovie() {
             const title = document.getElementById('searchInput').value;
             if (!title) return;
@@ -71,7 +73,8 @@
                             Director: data.director,
                             Actors: data.actors,
                             Plot: data.plot,
-                            Poster: data.poster
+                            Poster: data.poster,
+                            UserId: userId
                         })
                     });
 

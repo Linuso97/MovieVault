@@ -9,7 +9,9 @@ namespace MovieVault.MappingProfiles
         public AutoMapperProfile() 
         {
             CreateMap<Movie, MoviesReadOnlyVM>();
-            CreateMap<Movie, MovieDescriptionVM>().ReverseMap();
+            CreateMap<Movie, MovieDescriptionVM>()
+                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId))
+                .ReverseMap();
             CreateMap<MovieApiResponse, MovieDescriptionVM>();
         }
     }

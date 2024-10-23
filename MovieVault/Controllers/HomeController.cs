@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MovieVault.Data;
@@ -5,6 +6,7 @@ using MovieVault.Models;
 using MovieVault.Models.Movies;
 using MovieVault.Services;
 using System.Diagnostics;
+using System.Security.Claims;
 
 namespace MovieVault.Controllers
 {
@@ -36,6 +38,7 @@ namespace MovieVault.Controllers
             return Json(movie);
         }
 
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Save([FromBody] MovieDescriptionVM movieDescription)
@@ -47,7 +50,13 @@ namespace MovieVault.Controllers
 
             if(ModelState.IsValid)
             {
-                await _movieService.SaveMovieAsync(movieDescription);
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if (userId == null)
+                {
+                    return BadRequest("You need to be logged in to save to your list.");
+                }
+
+                await _movieService.SaveMovieAsync(movieDescription, userId);
                 return RedirectToAction(nameof(Index));
             }
             return View(movieDescription);

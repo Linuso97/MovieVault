@@ -6,9 +6,9 @@ namespace MovieVault.Services
     {
         Task<bool> CheckIfMovieExists(string name);
         Task DeleteMovieAsync(int id);
-        Task<List<MoviesReadOnlyVM>> GetAllMoviesAsync();
+        Task<List<MoviesReadOnlyVM>> GetAllMoviesAsync(string userId);
         Task<MovieDescriptionVM?> GetMovieAsync(string title);
         Task<T?> GetMovieFromListAsync<T>(int id) where T : class;
-        Task SaveMovieAsync(MovieDescriptionVM data);
+        Task SaveMovieAsync(MovieDescriptionVM data, string userId);
     }
 }
