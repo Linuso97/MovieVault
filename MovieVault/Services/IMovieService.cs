@@ -4,7 +4,7 @@ namespace MovieVault.Services
 {
     public interface IMovieService
     {
-        Task<bool> CheckIfMovieExists(string name);
+        Task<bool> CheckIfMovieExists(string name, string userId);
         Task DeleteMovieAsync(int id);
         Task<List<MoviesReadOnlyVM>> GetAllMoviesAsync(string userId);
         Task<MovieDescriptionVM?> GetMovieAsync(string title);

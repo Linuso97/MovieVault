@@ -38,28 +38,28 @@ namespace MovieVault.Controllers
             return Json(movie);
         }
 
-        [Authorize]
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Save([FromBody] MovieDescriptionVM movieDescription)
         {
-            if (await _movieService.CheckIfMovieExists(movieDescription.Title))
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null)
+            {
+                return BadRequest(new { message = "User not logged in." });
+            }
+
+            if (await _movieService.CheckIfMovieExists(movieDescription.Title, userId))
             {
                 ModelState.AddModelError(nameof(movieDescription.Title), TitleExistsValidationMessage);
             }
 
             if(ModelState.IsValid)
             {
-                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                if (userId == null)
-                {
-                    return BadRequest("You need to be logged in to save to your list.");
-                }
-
                 await _movieService.SaveMovieAsync(movieDescription, userId);
-                return RedirectToAction(nameof(Index));
+                return Ok(new { message = "Movie saved successfully!" });
             }
-            return View(movieDescription);
+            return BadRequest(new { message = "Model state is invalid." });
         }
 
         public IActionResult Privacy()
