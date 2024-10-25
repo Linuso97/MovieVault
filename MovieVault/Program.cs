@@ -5,6 +5,7 @@ using System.Reflection;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MovieVault.Services;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddScoped<IMovieService, MovieService>();
+builder.Services.AddTransient<IEmailSender, EmailSender>();
+
 builder.Services.AddHttpClient();
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
