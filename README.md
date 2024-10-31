@@ -1,4 +1,5 @@
 MovieVault Web Application
+
 MovieVault is a web application designed for movie enthusiasts who want to discover, save, and manage a collection of their favorite movies. This app allows users to search for movies, view detailed information fetched from an external API, and curate a personal collection by saving movies to a database.
 
 Project Overview
