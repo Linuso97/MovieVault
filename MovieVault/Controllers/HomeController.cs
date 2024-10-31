@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using MovieVault.Data;
 using MovieVault.Models;
 using MovieVault.Models.Movies;
 using MovieVault.Services;
@@ -49,7 +48,7 @@ namespace MovieVault.Controllers
                 return BadRequest(new { message = "User not logged in." });
             }
 
-            if (await _movieService.CheckIfMovieExists(movieDescription.Title, userId))
+            if (await _movieService.CheckIfMovieExistsAsync(movieDescription.Title, userId))
             {
                 ModelState.AddModelError(nameof(movieDescription.Title), TitleExistsValidationMessage);
             }

@@ -70,7 +70,7 @@ public class MovieService(ApplicationDbContext _context, HttpClient _httpClient,
         await _context.SaveChangesAsync();
     }
 
-    public async Task<bool> CheckIfMovieExists(string name, string userId)
+    public async Task<bool> CheckIfMovieExistsAsync(string name, string userId)
     {
         var lowercaseName = name.ToLower();
         return await _context.Movies.AnyAsync(q => q.Title

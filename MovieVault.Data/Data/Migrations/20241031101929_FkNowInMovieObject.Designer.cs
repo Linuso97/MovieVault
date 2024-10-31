@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MovieVault.Data;
 
@@ -11,9 +12,11 @@ using MovieVault.Data;
 namespace MovieVault.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241031101929_FkNowInMovieObject")]
+    partial class FkNowInMovieObject
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -244,6 +247,9 @@ namespace MovieVault.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("IdentityUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Plot")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -262,7 +268,7 @@ namespace MovieVault.Data.Migrations
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Year")
                         .IsRequired()
@@ -274,7 +280,7 @@ namespace MovieVault.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("IdentityUserId");
 
                     b.ToTable("Movies");
                 });
@@ -332,11 +338,11 @@ namespace MovieVault.Data.Migrations
 
             modelBuilder.Entity("MovieVault.Data.Movie", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "IdentityUser")
                         .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("IdentityUserId");
+
+                    b.Navigation("IdentityUser");
                 });
 #pragma warning restore 612, 618
         }

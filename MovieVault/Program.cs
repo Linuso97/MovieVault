@@ -1,11 +1,11 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using MovieVault.Data;
 using System.Reflection;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MovieVault.Services;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using MovieVault.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 

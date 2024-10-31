@@ -1,8 +1,11 @@
-﻿namespace MovieVault.Data
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace MovieVault.Data
 {
     public class Movie
     {
         public int Id { get; set; }
+        public IdentityUser IdentityUser { get; set; }
         public string UserId { get; set; }
         public string Title { get; set; }
         public string Year { get; set; }
