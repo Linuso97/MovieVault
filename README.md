@@ -3,9 +3,11 @@ MovieVault Web Application
 MovieVault is a web application designed for movie enthusiasts who want to discover, save, and manage a collection of their favorite movies. This app allows users to search for movies, view detailed information fetched from an external API, and curate a personal collection by saving movies to a database.
 
 Project Overview
+
 MovieVault showcases my ability to create a full-stack web application using ASP.NET Core MVC, integrating an external API with local database operations. It demonstrates proficiency in building a user-friendly web interface while ensuring smooth data handling, with key features focused on CRUD functionality and API consumption.
 
 Features
+
 Search Movies: Users can search for movies using keywords, accessing detailed information such as the title, genre, release date, and a brief synopsis. This data is fetched dynamically from the OMDb API.
 Save Movies to Collection: Users can add movies to a personal collection stored in a SQL Server database, making it easy to keep track of movies they want to watch.
 View Collection: Users can view all saved movies and get a detailed view of each movie in their collection.
