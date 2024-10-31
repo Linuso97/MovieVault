@@ -32,6 +32,8 @@ To run this project, clone the repository and follow these steps:
 
 Install Dependencies: Ensure that you have .NET 8.0 SDK installed and a SQL Server instance.
 Database Migration: Run the following command to apply database migrations
+
 dotnet ef database update
+
 Start the Server: Use Visual Studio or the CLI to run the application
 Access the Application: Navigate to http://localhost:**** (specified port) in your browser to use MovieVault.
