@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using System.Net.Mail;
-
-namespace MovieVault.Services
+﻿namespace MovieVault.Application.Services
 {
     public class EmailSender(IConfiguration _configuration) : IEmailSender
     {

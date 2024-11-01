@@ -1,6 +1,4 @@
-﻿using MovieVault.Models.Movies;
-
-namespace MovieVault.Services
+﻿namespace MovieVault.Application.Services
 {
     public interface IMovieService
     {

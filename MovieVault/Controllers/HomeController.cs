@@ -1,11 +1,3 @@
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using MovieVault.Models;
-using MovieVault.Models.Movies;
-using MovieVault.Services;
-using System.Diagnostics;
-using System.Security.Claims;
 
 namespace MovieVault.Controllers
 {

@@ -1,30 +1,17 @@
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using System.Reflection;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using MovieVault.Services;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using MovieVault.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+    options.UseSqlServer(connectionString, b => b.MigrationsAssembly("MovieVault.Data")));
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-
-builder.Services.AddScoped<IMovieService, MovieService>();
-builder.Services.AddTransient<IEmailSender, EmailSender>();
-
 builder.Services.AddHttpClient();
-builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
-
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
-
+ApplicationServicesRegistration.AddApplicationServices(builder.Services);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

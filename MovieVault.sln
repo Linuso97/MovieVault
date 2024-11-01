@@ -5,7 +5,9 @@ VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieVault", "MovieVault\MovieVault.csproj", "{EDE1E6AC-BE92-48AE-B580-082D630DE7AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieVault.Data", "MovieVault.Data\MovieVault.Data.csproj", "{38E88E0A-E902-44C1-AB71-40A9D808166B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieVault.Data", "MovieVault.Data\MovieVault.Data.csproj", "{38E88E0A-E902-44C1-AB71-40A9D808166B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieVault.Application", "MovieVault.Application\MovieVault.Application.csproj", "{635F2E19-CE7A-4A17-8270-A20DC19B5FE3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{38E88E0A-E902-44C1-AB71-40A9D808166B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{38E88E0A-E902-44C1-AB71-40A9D808166B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{38E88E0A-E902-44C1-AB71-40A9D808166B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{635F2E19-CE7A-4A17-8270-A20DC19B5FE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{635F2E19-CE7A-4A17-8270-A20DC19B5FE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{635F2E19-CE7A-4A17-8270-A20DC19B5FE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{635F2E19-CE7A-4A17-8270-A20DC19B5FE3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,4 +1,4 @@
-namespace MovieVault.Models
+namespace MovieVault.Application.Models
 {
     public class ErrorViewModel
     {

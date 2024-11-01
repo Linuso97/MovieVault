@@ -1,13 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using AutoMapper;
-using MovieVault.Data;
-using MovieVault.Models.Movies;
-using Microsoft.EntityFrameworkCore;
-using System.Text.Json;
-using System.ComponentModel;
-
-namespace MovieVault.Services;
+﻿namespace MovieVault.Application.Services;
 
 public class MovieService(ApplicationDbContext _context, HttpClient _httpClient, IMapper _mapper) : IMovieService
 {
@@ -24,7 +15,7 @@ public class MovieService(ApplicationDbContext _context, HttpClient _httpClient,
 
         if (data == null || data.Response == "False")
         {
-            return null; 
+            return null;
         }
 
         var viewData = _mapper.Map<MovieDescriptionVM>(data);
@@ -39,7 +30,7 @@ public class MovieService(ApplicationDbContext _context, HttpClient _httpClient,
         }
 
         var viewData = _mapper.Map<T>(data);
-        return (viewData);
+        return viewData;
     }
 
     public async Task<List<MoviesReadOnlyVM>> GetAllMoviesAsync(string userId)
@@ -77,6 +68,6 @@ public class MovieService(ApplicationDbContext _context, HttpClient _httpClient,
             .ToLower()
             .Equals(lowercaseName)
             && q.UserId == userId);
-           
+
     }
 }

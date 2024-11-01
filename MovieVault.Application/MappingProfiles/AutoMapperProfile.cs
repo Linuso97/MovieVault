@@ -1,12 +1,10 @@
-﻿using AutoMapper;
-using MovieVault.Data;
-using MovieVault.Models.Movies;
+﻿
 
-namespace MovieVault.MappingProfiles
+namespace MovieVault.Application.MappingProfiles
 {
     public class AutoMapperProfile : Profile
     {
-        public AutoMapperProfile() 
+        public AutoMapperProfile()
         {
             CreateMap<Movie, MoviesReadOnlyVM>();
             CreateMap<Movie, MovieDescriptionVM>()

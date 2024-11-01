@@ -1,11 +1,14 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace MovieVault.Data
 {
     public class Movie
     {
         public int Id { get; set; }
-        public IdentityUser IdentityUser { get; set; }
+        public IdentityUser? User { get; set; }
+
+        [MaxLength(450)]
         public string UserId { get; set; }
         public string Title { get; set; }
         public string Year { get; set; }

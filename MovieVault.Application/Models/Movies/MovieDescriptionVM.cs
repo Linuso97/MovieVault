@@ -1,4 +1,4 @@
-﻿namespace MovieVault.Models.Movies
+﻿namespace MovieVault.Application.Models.Movies
 {
     public class MovieDescriptionVM : BaseMoviesVM
     {
