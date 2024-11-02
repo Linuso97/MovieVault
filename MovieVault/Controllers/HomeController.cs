@@ -1,17 +1,9 @@
 
 namespace MovieVault.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController(IMovieService _movieService) : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-        private readonly IMovieService _movieService;
         private const string TitleExistsValidationMessage = "This movie already exists in your list";
-
-        public HomeController(ILogger<HomeController> logger, IMovieService movieService)
-        {
-            _logger = logger;
-            _movieService = movieService;
-        }
 
         public IActionResult Index()
         {
@@ -29,7 +21,6 @@ namespace MovieVault.Controllers
             return Json(movie);
         }
 
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Save([FromBody] MovieDescriptionVM movieDescription)
@@ -42,7 +33,7 @@ namespace MovieVault.Controllers
 
             if (await _movieService.CheckIfMovieExistsAsync(movieDescription.Title, userId))
             {
-                ModelState.AddModelError(nameof(movieDescription.Title), TitleExistsValidationMessage);
+                return BadRequest(new { message = "This object already exists in your list." });
             }
 
             if(ModelState.IsValid)

@@ -1,8 +1,4 @@
-﻿// Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
-
-// Write your JavaScript code.
-document.addEventListener('DOMContentLoaded', function () {
+﻿document.addEventListener('DOMContentLoaded', function () {
     const userId = '@User.FindFirstValue("UserId")';
 
     async function searchMovie() {
@@ -61,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
 
                 const messageDiv = document.getElementById('saveMessage');
-
+                console.log("Error response received:", errorResponse);
                 if (saveResponse.ok) {
                     const responseJson = await saveResponse.json();
                     messageDiv.style.display = 'block';
@@ -71,7 +67,15 @@ document.addEventListener('DOMContentLoaded', function () {
                     const errorResponse = await saveResponse.json();
                     messageDiv.style.display = 'block';
                     messageDiv.style.color = 'red';
-                    messageDiv.innerHTML = `Failed to save movie: ${errorResponse.message || 'An unknown error occurred.'} <a href="Identity/Account/Login">Log in</a>`;
+
+                    if (errorResponse.message === "User not logged in.") {
+                        messageDiv.innerHTML = `Failed to save movie: ${errorResponse.message} <a href="Identity/Account/Login">Log in</a>`;
+                    } else if (errorResponse.message === "This object already exists in your list.") {
+                        // Ingen logga-in-länk här
+                        messageDiv.textContent = `Failed to save movie: ${errorResponse.message}`;
+                    } else {
+                        messageDiv.textContent = `Failed to save movie: ${errorResponse.message || 'An unknown error occurred.'}`;
+                    }
                 }
             });
 
