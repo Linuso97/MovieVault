@@ -57,25 +57,16 @@
                 });
 
                 const messageDiv = document.getElementById('saveMessage');
-                console.log("Error response received:", errorResponse);
+                messageDiv.style.display = 'block';
+                console.log("Save message div displayed.");
                 if (saveResponse.ok) {
                     const responseJson = await saveResponse.json();
-                    messageDiv.style.display = 'block';
                     messageDiv.style.color = 'green';
-                    messageDiv.textContent = responseJson.message;
+                    messageDiv.textContent = responseJson.message || 'Movie saved successfully!';
                 } else {
                     const errorResponse = await saveResponse.json();
-                    messageDiv.style.display = 'block';
                     messageDiv.style.color = 'red';
-
-                    if (errorResponse.message === "User not logged in.") {
-                        messageDiv.innerHTML = `Failed to save movie: ${errorResponse.message} <a href="Identity/Account/Login">Log in</a>`;
-                    } else if (errorResponse.message === "This object already exists in your list.") {
-                        // Ingen logga-in-länk här
-                        messageDiv.textContent = `Failed to save movie: ${errorResponse.message}`;
-                    } else {
-                        messageDiv.textContent = `Failed to save movie: ${errorResponse.message || 'An unknown error occurred.'}`;
-                    }
+                    messageDiv.textContent = errorResponse.message || 'Failed to save movie.';
                 }
             });
 
