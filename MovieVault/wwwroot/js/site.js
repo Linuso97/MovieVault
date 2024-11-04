@@ -58,7 +58,7 @@
 
                 const messageDiv = document.getElementById('saveMessage');
                 messageDiv.style.display = 'block';
-                console.log("Save message div displayed.");
+
                 if (saveResponse.ok) {
                     const responseJson = await saveResponse.json();
                     messageDiv.style.color = 'green';
