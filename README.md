@@ -6,7 +6,7 @@ MovieVault is a web application designed for movie enthusiasts who want to disco
 
 Project Overview
 
-MovieVault showcases my ability to create a full-stack web application using ASP.NET Core MVC, integrating an external API with local database operations. It demonstrates proficiency in building a user-friendly web interface while ensuring smooth data handling, with key features focused on CRUD functionality and API consumption.
+MovieVault showcases my ability to create a full-stack web application using ASP.NET Core MVC, integrating an external API with local database operations. The main purpose of this project is not to highlight frontend design but rather to demonstrate my backend development skills. With a focus on efficient data handling, CRUD functionality, and API integration, this project emphasizes my expertise in building robust backend solutions.
 
 Features
 
