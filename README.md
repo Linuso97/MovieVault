@@ -1,5 +1,3 @@
-*Work in progress*
-
 MovieVault Web Application
 
 MovieVault is a web application designed for movie enthusiasts who want to discover, save, and manage a collection of their favorite movies. This app allows users to search for movies, view detailed information fetched from an external API, and curate a personal collection by saving movies to a database.
@@ -39,3 +37,5 @@ dotnet ef database update
 
 Start the Server: Use Visual Studio or the CLI to run the application
 Access the Application: Navigate to http://localhost:**** (specified port) in your browser to use MovieVault.
+
+The program is set up to create an account with help of papercut smtp so you will need to use this to be able to creat an account.
