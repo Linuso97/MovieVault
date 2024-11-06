@@ -9,65 +9,112 @@ public class MovieService(ApplicationDbContext _context, HttpClient _httpClient,
             return null;
         }
 
-        var response = await _httpClient.GetStringAsync
-            ($"http://www.omdbapi.com/?t={Uri.EscapeDataString(title)}&apikey=c74d46b0");
-        var data = JsonSerializer.Deserialize<MovieApiResponse>(response);
-
-        if (data == null || data.Response == "False")
+        try
         {
-            return null;
+            var response = await _httpClient.GetStringAsync
+                ($"http://www.omdbapi.com/?t={Uri.EscapeDataString(title)}&apikey=c74d46b0");
+            var data = JsonSerializer.Deserialize<MovieApiResponse>(response);
+
+            if (data == null || data.Response == "False")
+            {
+                return null;
+            }
+
+            var viewData = _mapper.Map<MovieDescriptionVM>(data);
+            return viewData;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Something went wrong when trying to fetch the movie: {ex.Message}");
+            throw;
         }
 
-        var viewData = _mapper.Map<MovieDescriptionVM>(data);
-        return viewData;
     }
     public async Task<T?> GetMovieFromListAsync<T>(int id) where T : class
     {
-        var data = await _context.Movies.FirstOrDefaultAsync(x => x.Id == id);
-        if (data == null)
+        try
         {
-            return null;
-        }
+            var data = await _context.Movies.FirstOrDefaultAsync(x => x.Id == id);
+            if (data == null)
+            {
+                return null;
+            }
 
-        var viewData = _mapper.Map<T>(data);
-        return viewData;
+            var viewData = _mapper.Map<T>(data);
+            return viewData;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Something went wrong when trying to fetch the movie: {ex.Message}");
+            throw;
+        }
     }
 
     public async Task<List<MoviesReadOnlyVM>> GetAllMoviesAsync(string userId)
     {
-
-        var data = await _context.Movies
-            .Where(q => q.UserId == userId)
-            .ToListAsync();
-        var viewData = _mapper.Map<List<MoviesReadOnlyVM>>(data);
-        return viewData;
+        try
+        {
+            var data = await _context.Movies
+                .Where(q => q.UserId == userId)
+                .ToListAsync();
+            var viewData = _mapper.Map<List<MoviesReadOnlyVM>>(data);
+            return viewData;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Something went wrong when trying to fetch your movie list: {ex.Message}");
+            throw;
+        }
     }
 
     public async Task DeleteMovieAsync(int id)
     {
-        var data = await _context.Movies.FirstOrDefaultAsync(x => x.Id == id);
-        if (data != null)
+        try
         {
-            _context.Movies.Remove(data);
-            _context.SaveChanges();
+            var data = await _context.Movies.FirstOrDefaultAsync(x => x.Id == id);
+            if (data != null)
+            {
+                _context.Movies.Remove(data);
+                _context.SaveChanges();
+            }
+        }
+        catch(Exception ex)
+        {
+            Console.WriteLine($"Something went wrong when trying to delete movie: {ex.Message}");
+            throw;
         }
     }
 
     public async Task SaveMovieAsync(MovieDescriptionVM data, string userId)
     {
-        var movie = _mapper.Map<Movie>(data);
-        movie.UserId = userId;
-        _context.Add(movie);
-        await _context.SaveChangesAsync();
+        try
+        {
+            var movie = _mapper.Map<Movie>(data);
+            movie.UserId = userId;
+            _context.Add(movie);
+            await _context.SaveChangesAsync();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Something went wrong when trying to save movie: {ex.Message}");
+            throw;
+        }
     }
 
     public async Task<bool> CheckIfMovieExistsAsync(string name, string userId)
     {
-        var lowercaseName = name.ToLower();
-        return await _context.Movies.AnyAsync(q => q.Title
-            .ToLower()
-            .Equals(lowercaseName)
-            && q.UserId == userId);
-
+        try
+        {
+            var lowercaseName = name.ToLower();
+            return await _context.Movies.AnyAsync(q => q.Title
+                .ToLower()
+                .Equals(lowercaseName)
+                && q.UserId == userId);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Something went wrong when trying to check if movie already exists: {ex.Message}");
+            throw;
+        }
     }
 }

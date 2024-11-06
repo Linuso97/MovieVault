@@ -33,6 +33,7 @@
                 </div>
             `;
 
+            //If user clicks savebtn executes Save POST method in HomeController.
             document.getElementById('saveButton').addEventListener('click', async function () {
                 const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
 
