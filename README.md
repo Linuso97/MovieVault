@@ -38,4 +38,4 @@ dotnet ef database update
 Start the Server: Use Visual Studio or the CLI to run the application
 Access the Application: Navigate to http://localhost:**** (specified port) in your browser to use MovieVault.
 
-The program is set up to create an account with help of papercut smtp so you will need to use this to be able to creat an account.
+The program is set up to create an account with help of papercut smtp so you will need to use this to be able to create an account.
