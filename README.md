@@ -28,6 +28,7 @@ CRUD Implementation: Core CRUD operations (Create, Read, Update, Delete) were se
 User Interface Design: I implemented the front-end using ASP.NET Core MVC, focusing on a simple and intuitive user interface. Razor views were used for dynamic content rendering, providing users with an interactive experience.
 
 How to Run the Application
+
 To run this project, clone the repository and follow these steps:
 
 Install Dependencies: Ensure that you have .NET 8.0 SDK installed and a SQL Server instance.
